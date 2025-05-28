@@ -1,15 +1,25 @@
-import { create } from 'zustand';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
-export interface BearState {
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
-  updateBears: (newBears: number) => void;
+type BearStore = {
+  bears: number
+  selectedRow: string
+  addABear: () => void
+  setSelectedRow: (row: string) => void
 }
 
-export const useStore = create<BearState>((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
-  updateBears: (newBears) => set({ bears: newBears }),
-}));
+export const useBearStore = create<BearStore>()(
+  persist(
+    (set, get) => ({
+      bears: 0,
+      selectedRow: '',
+      addABear: () => set({ bears: get().bears + 1 }),
+      setSelectedRow: (row: string) => set({ selectedRow: row }),
+    }),
+    {
+      name: 'food-storage', // name of the item in the storage (must be unique)
+      storage: createJSONStorage(() => AsyncStorage), // (optional) by default, 'localStorage' is used
+    },
+  ),
+)
