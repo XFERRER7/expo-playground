@@ -8,6 +8,7 @@ import moment from 'moment-timezone';
 import { Table } from '~/components/Table';
 import { useBearStore } from '~/store/store';
 import { MainModal } from '~/components/MainModal';
+import { Dropdown } from '~/components/Dropdown';
 
 moment.tz.setDefault('America/Sao_Paulo');
 
@@ -16,7 +17,8 @@ export default function Home() {
 
   const { selectedRow } = useBearStore()
 
-  const [modalVisible, setModalVisible] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
+  const [dropdownValue, setDropdownValue] = useState<string>('');
 
   return (
     <>
@@ -36,6 +38,10 @@ export default function Home() {
           onPress={() => setModalVisible(true)}
         />
 
+        <Dropdown
+          value={dropdownValue}
+          setValue={setDropdownValue}
+        />
 
         <Table />
 
