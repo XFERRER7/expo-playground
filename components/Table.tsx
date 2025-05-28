@@ -1,43 +1,46 @@
-import React from 'react'
-import { Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { useBearStore } from '~/store/store'
+import { Table as RnTable, Row, Rows } from 'react-native-table-component';
+import { Pen, Trash2 } from 'lucide-react-native';
 
-export const Table = () => {
-
-  const { setSelectedRow } = useBearStore()
-
-  const values = [
-    <View key="1" style={{ padding: 10, borderBottomWidth: 1, borderColor: '#ccc' }} onTouchEnd={() => setSelectedRow('Linha 1')}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Teste 1</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Teste maior</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Teste 2</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Tst menor</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Observacoes</Text></View>
-      </View>
-    </View>,
-    <View key="2" style={{ padding: 10, borderBottomWidth: 1, borderColor: '#ccc' }} onTouchEnd={() => setSelectedRow('Linha 2')}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Teste 1</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Teste maior</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Teste 2</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Tst menor</Text></View>
-        <View style={{ width: '20%' }}><Text style={{ textAlign: 'center' }}>Observacoes</Text></View>
-      </View>
-    </View>,
-  ]
-
+const Icons = () => {
   return (
-    <View>
-      <View style={{ flexDirection: "row" }}>
-        <View style={{ flexDirection: "column" }}>
-          {values}
-        </View>
-      </View>
-
+    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+      <Pen size={20} color="orange" />
+      <Trash2 size={20} color="red" />
     </View>
   )
 }
 
+const tableData = {
+  tableHead: ['Crypto Name', 'Value', 'Mkt Cap', 'Teste', 'Actions'],
+  tableData: [
+    ['Bitcoin', '$44,331', '$839,702,328,904', 'Teste 1', Icons()],
+    ['Ethereum', '$3000.9', '$359,080,563,225', 'Teste 2', Icons()],
+    ['Tether', '$1', '$79,470,820,738', 'Teste 3', Icons()],
+    ['BNB', '$413.44', '$69,446,144,361', 'Teste 4', Icons()],
+    ['USD Coin', '$1', '$53,633,260,549', 'Teste 5', Icons()],
+  ],
+};
 
+export const Table = () => {
+
+  const [data, setData] = useState(tableData);
+  return (
+    <View style={styles.container}>
+      <RnTable>
+        <Row data={data.tableHead} style={styles.head} textStyle={styles.headText} />
+        <Rows data={data.tableData} textStyle={styles.text} />
+      </RnTable>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: { padding: 10, justifyContent: 'center', backgroundColor: '#fff', borderWidth: 1, borderColor: '#cce', borderRadius: 8 },
+  head: { height: 44 },
+  headText: { fontSize:16, fontWeight: 'bold' , textAlign: 'center', color: 'black' },
+  text: { margin: 6, fontSize: 16, fontWeight: 'semibold' , textAlign: 'center' },
+})
 

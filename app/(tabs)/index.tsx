@@ -21,10 +21,7 @@ export default function Home() {
   return (
     <>
       <Stack.Screen options={{ title: 'Home' }} />
-      <View className="flex-1 justify-center p-4">
-        <Text className="text-xl font-bold mb-4 mx-auto">
-          Registro de Ponto - {moment().format('DD/MM/YYYY')}
-        </Text>
+      <View className="flex-1 justify-center p-4 gap-5">
 
         {
           selectedRow && (
